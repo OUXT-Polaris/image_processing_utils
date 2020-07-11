@@ -37,6 +37,15 @@ ament_target_dependencies(image_decompressor_component
 rclcpp_components_register_nodes(image_decompressor_component
   "image_processing_utils::ImageDecompressorComponent")
 
+add_executable(image_decompressor_node
+  src/image_decompressor_node.cpp)
+ament_target_dependencies(image_decompressor_node
+  rclcpp
+  rclcpp_components
+  sensor_msgs
+  cv_bridge)
+target_link_libraries(image_decompressor_node image_decompressor_component)
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
