@@ -46,6 +46,20 @@ ament_target_dependencies(image_decompressor_node
   cv_bridge)
 target_link_libraries(image_decompressor_node image_decompressor_component)
 
+install(
+  DIRECTORY "include/"
+  DESTINATION include
+)
+
+install(TARGETS
+  image_decompressor_node
+  DESTINATION lib/image_processing_utils
+)
+install(TARGETS image_decompressor_component
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
@@ -57,4 +71,5 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+ament_export_include_directories(include)
 ament_package()
