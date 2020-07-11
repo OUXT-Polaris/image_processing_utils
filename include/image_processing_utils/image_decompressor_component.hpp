@@ -81,6 +81,6 @@ private:
   rclcpp::Subscription<sensor_msgs::msg::CompressedImage>::SharedPtr image_sub_;
   rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr image_pub_;
 };
-}
+}  // namespace image_processing_utils
 
 #endif  // IMAGE_PROCESSING_UTILS__IMAGE_DECOMPRESSOR_COMPONENT_HPP_

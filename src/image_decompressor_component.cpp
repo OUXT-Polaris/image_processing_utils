@@ -20,6 +20,8 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
+#include <string>
+
 namespace image_processing_utils
 {
 ImageDecompressorComponent::ImageDecompressorComponent(const rclcpp::NodeOptions & options)
@@ -112,6 +114,6 @@ void ImageDecompressorComponent::ImageCallback(
     image_pub_->publish(*cv_ptr->toImageMsg());
   }
 }
-}
+}  // namespace image_processing_utils
 
 RCLCPP_COMPONENTS_REGISTER_NODE(image_processing_utils::ImageDecompressorComponent)
