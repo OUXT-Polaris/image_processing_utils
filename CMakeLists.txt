@@ -25,6 +25,18 @@ find_package(OpenCV REQUIRED)
 
 include_directories(include ${OpenCV_INCLUDE_DIRS})
 
+add_library(image_decompressor_component SHARED
+  src/image_decompressor_component.cpp)
+target_compile_definitions(image_decompressor_component
+  PRIVATE "HERMITE_PATH_PLANNER_HERMITE_PATH_PLANNER_COMPONENT_BUILDING_DLL")
+ament_target_dependencies(image_decompressor_component
+  rclcpp
+  rclcpp_components
+  sensor_msgs
+  cv_bridge)
+rclcpp_components_register_nodes(image_decompressor_component
+  "image_processing_utils::ImageDecompressorComponent")
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights

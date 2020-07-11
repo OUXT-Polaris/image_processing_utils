@@ -14,6 +14,7 @@
 
 #include <image_processing_utils/image_decompressor_component.hpp>
 
+#include <rclcpp_components/register_node_macro.hpp>
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/image_encodings.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -57,7 +58,8 @@ void ImageDecompressorComponent::ImageCallback(
           cv_ptr->encoding = enc::BGR8;
           break;
         default:
-          RCLCPP_ERROR(get_logger(), "Unsupported number of channels: %i", cv_ptr->image.channels());
+          RCLCPP_ERROR(get_logger(), "Unsupported number of channels: %i",
+            cv_ptr->image.channels());
           break;
       }
     } else {
@@ -106,6 +108,10 @@ void ImageDecompressorComponent::ImageCallback(
 
   size_t rows = cv_ptr->image.rows;
   size_t cols = cv_ptr->image.cols;
-  image_pub_->publish(*cv_ptr->toImageMsg());
+  if ((rows > 0) && (cols > 0)) {
+    image_pub_->publish(*cv_ptr->toImageMsg());
+  }
 }
 }
+
+RCLCPP_COMPONENTS_REGISTER_NODE(image_processing_utils::ImageDecompressorComponent)
