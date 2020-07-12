@@ -27,8 +27,12 @@ namespace image_processing_utils
 ImageDecompressorComponent::ImageDecompressorComponent(const rclcpp::NodeOptions & options)
 : rclcpp::Node("image_decompressor", options)
 {
-  std::string in_topic = rclcpp::expand_topic_or_service_name("in", get_name(), get_namespace());
-  std::string out_topic = rclcpp::expand_topic_or_service_name("out", get_name(), get_namespace());
+  std::string in_topic;// = rclcpp::expand_topic_or_service_name("in", get_name(), get_namespace());
+  std::string out_topic;// = rclcpp::expand_topic_or_service_name("out", get_name(), get_namespace());
+  declare_parameter("in", "in");
+  get_parameter("in", in_topic);
+  declare_parameter("out", "out");
+  get_parameter("out", out_topic);
   image_pub_ = this->create_publisher<sensor_msgs::msg::Image>(out_topic, 1);
   image_sub_ = this->create_subscription<sensor_msgs::msg::CompressedImage>(
     in_topic, 1,

@@ -75,7 +75,7 @@ private:
   void ImageCallback(const sensor_msgs::msg::CompressedImage::SharedPtr msg);
   struct Config
   {
-    int imdecode_flag;
+    int imdecode_flag = 1;
   };
   Config config_;
   rclcpp::Subscription<sensor_msgs::msg::CompressedImage>::SharedPtr image_sub_;

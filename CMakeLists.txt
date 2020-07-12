@@ -36,6 +36,7 @@ ament_target_dependencies(image_decompressor_component
   cv_bridge)
 rclcpp_components_register_nodes(image_decompressor_component
   "image_processing_utils::ImageDecompressorComponent")
+ament_export_libraries(image_decompressor_component)
 
 add_executable(image_decompressor_node
   src/image_decompressor_node.cpp)
