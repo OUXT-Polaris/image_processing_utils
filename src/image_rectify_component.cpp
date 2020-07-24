@@ -14,10 +14,27 @@
 
 #include <image_processing_utils/image_rectify_component.hpp>
 
+#include <memory>
+
 namespace image_processing_utils
 {
 ImageRectifyComponent::ImageRectifyComponent(const rclcpp::NodeOptions & options)
 : Node("image_rectify_node", options)
 {
+  camera_info_sub_ =
+    std::shared_ptr<CameraInfoSubscriber>(new CameraInfoSubscriber(this, "camera_info"));
+  image_sub_ = std::shared_ptr<ImageSubscriber>(new ImageSubscriber(this, "image_raw"));
+  sync_ = std::make_shared<message_filters::TimeSynchronizer<sensor_msgs::msg::CameraInfo,
+      sensor_msgs::msg::Image>>(*camera_info_sub_,
+      *image_sub_, 10);
+  sync_->registerCallback(std::bind(
+      &ImageRectifyComponent::callback, this, std::placeholders::_1,
+      std::placeholders::_2));
 }
+
+void ImageRectifyComponent::callback(
+  const sensor_msgs::msg::CameraInfo::ConstSharedPtr camera_info,
+  const sensor_msgs::msg::Image::ConstSharedPtr image)
+{
 }
+}  // namespace image_processing_utils

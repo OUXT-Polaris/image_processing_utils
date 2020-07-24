@@ -66,13 +66,12 @@ extern "C" {
 #include <message_filters/sync_policies/exact_time.h>
 #include <message_filters/time_synchronizer.h>
 
+#include <memory>
+
 namespace image_processing_utils
 {
 typedef message_filters::Subscriber<sensor_msgs::msg::CameraInfo> CameraInfoSubscriber;
 typedef message_filters::Subscriber<sensor_msgs::msg::Image> ImageSubscriber;
-typedef message_filters::sync_policies::ExactTime<
-    sensor_msgs::msg::CameraInfo, sensor_msgs::msg::Image>
-  SyncPolicy;
 
 class ImageRectifyComponent : public rclcpp::Node
 {
@@ -81,8 +80,13 @@ public:
   explicit ImageRectifyComponent(const rclcpp::NodeOptions & options);
 
 private:
-  void ImageCallback(const sensor_msgs::msg::Image::SharedPtr msg);
-  rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr image_sub_;
+  std::shared_ptr<message_filters::TimeSynchronizer<sensor_msgs::msg::CameraInfo,
+    sensor_msgs::msg::Image>> sync_;
+  void callback(
+    const sensor_msgs::msg::CameraInfo::ConstSharedPtr camera_info,
+    const sensor_msgs::msg::Image::ConstSharedPtr image);
+  std::shared_ptr<ImageSubscriber> image_sub_;
+  std::shared_ptr<CameraInfoSubscriber> camera_info_sub_;
 };
 }  // namespace image_processing_utils
 
