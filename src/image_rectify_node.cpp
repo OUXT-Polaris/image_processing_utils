@@ -20,10 +20,8 @@ int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
   rclcpp::NodeOptions options;
-  /*
-  auto component = std::make_shared<image_processing_utils::ImageDecompressorComponent>(options);
+  auto component = std::make_shared<image_processing_utils::ImageRectifyComponent>(options);
   rclcpp::spin(component);
-  */
   rclcpp::shutdown();
   return 0;
 }

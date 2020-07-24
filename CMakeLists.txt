@@ -64,16 +64,21 @@ rclcpp_components_register_nodes(image_rectify_component
   "image_processing_utils::ImageRectifyComponent")
 ament_export_libraries(image_rectify_component)
 
+add_executable(image_rectify_node
+  src/image_rectify_node.cpp
+)
+target_link_libraries(image_rectify_node image_rectify_component)
+
 install(
   DIRECTORY "include/"
   DESTINATION include
 )
 
 install(TARGETS
-  image_decompressor_node
+  image_decompressor_node image_rectify_node
   DESTINATION lib/image_processing_utils
 )
-install(TARGETS image_decompressor_component
+install(TARGETS image_decompressor_component image_rectify_component
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
