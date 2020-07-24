@@ -21,6 +21,8 @@ find_package(rclcpp REQUIRED)
 find_package(rclcpp_components REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(cv_bridge REQUIRED)
+find_package(image_transport REQUIRED)
+find_package(image_geometry REQUIRED)
 find_package(OpenCV REQUIRED)
 
 include_directories(include ${OpenCV_INCLUDE_DIRS})
@@ -28,7 +30,7 @@ include_directories(include ${OpenCV_INCLUDE_DIRS})
 add_library(image_decompressor_component SHARED
   src/image_decompressor_component.cpp)
 target_compile_definitions(image_decompressor_component
-  PRIVATE "HERMITE_PATH_PLANNER_HERMITE_PATH_PLANNER_COMPONENT_BUILDING_DLL")
+  PRIVATE "IMAGE_PROCESSING_UTILS_IMAGE_DECOMPRESSOR_COMPONENT_BUILDING_DLL")
 ament_target_dependencies(image_decompressor_component
   rclcpp
   rclcpp_components
@@ -47,16 +49,36 @@ ament_target_dependencies(image_decompressor_node
   cv_bridge)
 target_link_libraries(image_decompressor_node image_decompressor_component)
 
+add_library(image_rectify_component SHARED
+  src/image_rectify_component.cpp)
+target_compile_definitions(image_rectify_component
+  PRIVATE "IMAGE_PROCESSING_UTILS_IMAGE_RECTIFY_COMPONENT_BUILDING_DLL")
+ament_target_dependencies(image_rectify_component
+  rclcpp
+  rclcpp_components
+  sensor_msgs
+  cv_bridge
+  image_transport
+  image_geometry)
+rclcpp_components_register_nodes(image_rectify_component
+  "image_processing_utils::ImageRectifyComponent")
+ament_export_libraries(image_rectify_component)
+
+add_executable(image_rectify_node
+  src/image_rectify_node.cpp
+)
+target_link_libraries(image_rectify_node image_rectify_component)
+
 install(
   DIRECTORY "include/"
   DESTINATION include
 )
 
 install(TARGETS
-  image_decompressor_node
+  image_decompressor_node image_rectify_node
   DESTINATION lib/image_processing_utils
 )
-install(TARGETS image_decompressor_component
+install(TARGETS image_decompressor_component image_rectify_component
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
