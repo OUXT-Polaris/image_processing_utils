@@ -13,6 +13,8 @@
 // limitations under the License.
 
 #include <image_processing_utils/image_rectify_component.hpp>
+#include <cv_bridge/cv_bridge.h>
+#include <rclcpp_components/register_node_macro.hpp>
 
 #include <memory>
 
@@ -21,20 +23,29 @@ namespace image_processing_utils
 ImageRectifyComponent::ImageRectifyComponent(const rclcpp::NodeOptions & options)
 : Node("image_rectify_node", options)
 {
-  camera_info_sub_ =
-    std::shared_ptr<CameraInfoSubscriber>(new CameraInfoSubscriber(this, "camera_info"));
-  image_sub_ = std::shared_ptr<ImageSubscriber>(new ImageSubscriber(this, "image_raw"));
-  sync_ = std::make_shared<message_filters::TimeSynchronizer<sensor_msgs::msg::CameraInfo,
-      sensor_msgs::msg::Image>>(*camera_info_sub_,
-      *image_sub_, 10);
-  sync_->registerCallback(std::bind(
-      &ImageRectifyComponent::callback, this, std::placeholders::_1,
-      std::placeholders::_2));
+  declare_parameter("interpolation", 1);
+  get_parameter("interpolation", interpolation_);
+  pub_rect_ = image_transport::create_publisher(this, "image_rect");
+  sub_camera_ = image_transport::create_camera_subscription(
+    this, "image", std::bind(&ImageRectifyComponent::callback,
+    this, std::placeholders::_1, std::placeholders::_2), "raw");
 }
 
 void ImageRectifyComponent::callback(
-  const sensor_msgs::msg::CameraInfo::ConstSharedPtr camera_info,
-  const sensor_msgs::msg::Image::ConstSharedPtr image)
+  const sensor_msgs::msg::Image::ConstSharedPtr image,
+  const sensor_msgs::msg::CameraInfo::ConstSharedPtr camera_info)
 {
+  if (pub_rect_.getNumSubscribers() < 1) {
+    return;
+  }
+  model_.fromCameraInfo(*camera_info);
+  const cv::Mat image_cv = cv_bridge::toCvShare(image)->image;
+  cv::Mat rect_image_cv;
+  model_.rectifyImage(image_cv, rect_image_cv, interpolation_);
+  sensor_msgs::msg::Image::SharedPtr rect_image =
+    cv_bridge::CvImage(image->header, image->encoding, rect_image_cv).toImageMsg();
+  pub_rect_.publish(rect_image);
 }
 }  // namespace image_processing_utils
+
+RCLCPP_COMPONENTS_REGISTER_NODE(image_processing_utils::ImageRectifyComponent)

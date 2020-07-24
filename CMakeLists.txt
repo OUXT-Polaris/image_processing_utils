@@ -21,7 +21,8 @@ find_package(rclcpp REQUIRED)
 find_package(rclcpp_components REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(cv_bridge REQUIRED)
-find_package(message_filters REQUIRED)
+find_package(image_transport REQUIRED)
+find_package(image_geometry REQUIRED)
 find_package(OpenCV REQUIRED)
 
 include_directories(include ${OpenCV_INCLUDE_DIRS})
@@ -57,7 +58,8 @@ ament_target_dependencies(image_rectify_component
   rclcpp_components
   sensor_msgs
   cv_bridge
-  message_filters)
+  image_transport
+  image_geometry)
 rclcpp_components_register_nodes(image_rectify_component
   "image_processing_utils::ImageRectifyComponent")
 ament_export_libraries(image_rectify_component)

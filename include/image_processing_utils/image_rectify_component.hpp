@@ -62,16 +62,13 @@ extern "C" {
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/image.hpp>
 #include <sensor_msgs/msg/camera_info.hpp>
-#include <message_filters/subscriber.h>
-#include <message_filters/sync_policies/exact_time.h>
-#include <message_filters/time_synchronizer.h>
+#include <image_transport/image_transport.h>
+#include <image_geometry/pinhole_camera_model.h>
 
 #include <memory>
 
 namespace image_processing_utils
 {
-typedef message_filters::Subscriber<sensor_msgs::msg::CameraInfo> CameraInfoSubscriber;
-typedef message_filters::Subscriber<sensor_msgs::msg::Image> ImageSubscriber;
 
 class ImageRectifyComponent : public rclcpp::Node
 {
@@ -80,13 +77,13 @@ public:
   explicit ImageRectifyComponent(const rclcpp::NodeOptions & options);
 
 private:
-  std::shared_ptr<message_filters::TimeSynchronizer<sensor_msgs::msg::CameraInfo,
-    sensor_msgs::msg::Image>> sync_;
   void callback(
-    const sensor_msgs::msg::CameraInfo::ConstSharedPtr camera_info,
-    const sensor_msgs::msg::Image::ConstSharedPtr image);
-  std::shared_ptr<ImageSubscriber> image_sub_;
-  std::shared_ptr<CameraInfoSubscriber> camera_info_sub_;
+    const sensor_msgs::msg::Image::ConstSharedPtr image,
+    const sensor_msgs::msg::CameraInfo::ConstSharedPtr camera_info);
+  image_transport::Publisher pub_rect_;
+  image_geometry::PinholeCameraModel model_;
+  image_transport::CameraSubscriber sub_camera_;
+  int interpolation_;
 };
 }  // namespace image_processing_utils
 
