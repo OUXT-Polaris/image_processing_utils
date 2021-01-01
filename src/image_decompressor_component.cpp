@@ -64,7 +64,8 @@ void ImageDecompressorComponent::ImageCallback(
           cv_ptr->encoding = enc::BGR8;
           break;
         default:
-          RCLCPP_ERROR(get_logger(), "Unsupported number of channels: %i",
+          RCLCPP_ERROR(
+            get_logger(), "Unsupported number of channels: %i",
             cv_ptr->image.channels());
           break;
       }
