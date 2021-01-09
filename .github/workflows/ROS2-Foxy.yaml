@@ -1,4 +1,4 @@
-name: ROS2-foxy
+name: ROS2-Foxy
 
 on: [push, pull_request]
 
