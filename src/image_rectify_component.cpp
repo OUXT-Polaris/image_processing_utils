@@ -27,8 +27,9 @@ ImageRectifyComponent::ImageRectifyComponent(const rclcpp::NodeOptions & options
   get_parameter("interpolation", interpolation_);
   pub_rect_ = image_transport::create_publisher(this, "image_rect");
   sub_camera_ = image_transport::create_camera_subscription(
-    this, "image", std::bind(&ImageRectifyComponent::callback,
-    this, std::placeholders::_1, std::placeholders::_2), "raw");
+    this, "image", std::bind(
+      &ImageRectifyComponent::callback,
+      this, std::placeholders::_1, std::placeholders::_2), "raw");
 }
 
 void ImageRectifyComponent::callback(
