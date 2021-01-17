@@ -62,7 +62,13 @@ extern "C" {
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/image.hpp>
 #include <sensor_msgs/msg/camera_info.hpp>
+
+#if FOXY
 #include <image_transport/image_transport.hpp>
+#else
+#include <image_transport/image_transport.h>
+#endif
+
 #include <image_geometry/pinhole_camera_model.h>
 
 #include <memory>
