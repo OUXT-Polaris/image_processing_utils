@@ -1,7 +1,5 @@
 
-name: ROS2-dashing
-
-name: documentat
+name: ROS2-Dashing
 
 on:
   schedule:
