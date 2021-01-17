@@ -63,9 +63,9 @@ extern "C" {
 #include <sensor_msgs/msg/image.hpp>
 #include <sensor_msgs/msg/camera_info.hpp>
 
-#if ROS_DISTRO == foxy
+#if FOXY
 #include <image_transport/image_transport.hpp>
-# else
+#else
 #include <image_transport/image_transport.h>
 #endif
 

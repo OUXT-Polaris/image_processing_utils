@@ -27,6 +27,10 @@ find_package(OpenCV REQUIRED)
 
 include_directories(include ${OpenCV_INCLUDE_DIRS})
 
+if($ENV{ROS_DISTRO} STREQUAL "foxy")
+  add_definitions(-DFOXY)
+endif()
+
 add_library(image_decompressor_component SHARED
   src/image_decompressor_component.cpp)
 target_compile_definitions(image_decompressor_component
