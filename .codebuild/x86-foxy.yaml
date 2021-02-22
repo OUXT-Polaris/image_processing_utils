@@ -6,7 +6,10 @@ phases:
       - echo Nothing to do in the pre_build phase...
   build:
     commands:
-      - cd ../ && ls
+      - cd ../ && mv image_processing_utils ~/colcon_ws/src
+      - rosdep init
+      - rosdep update
+      - cd ~/colcon_ws && vcs import src < src/image_processing_utils/dependency.repos
   post_build:
     commands:
       - echo Build completed on `date`
