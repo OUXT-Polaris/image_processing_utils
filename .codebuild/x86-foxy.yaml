@@ -10,6 +10,7 @@ phases:
       - rosdep update
       - cd ~/colcon_ws && vcs import src < src/image_processing_utils/dependency.repos
       - cd ~/colcon_ws && rosdep install -r -y --from-paths . --ignore-src
+      - apt-get install -y ros-foxy-ament-cmake
       - sh /opt/ros/foxy/setup.sh && cd ~/colcon_ws && colcon build --symlink-install && colcon test && colcon test-result --verbose
   post_build:
     commands:
