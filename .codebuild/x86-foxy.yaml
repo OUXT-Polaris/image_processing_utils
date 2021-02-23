@@ -15,7 +15,7 @@ phases:
       - aptly repo create -distribution=focal -component=main ros-foxy-image-processing-utils
       - mkdir /artifacts
       - mv ~/colcon_ws/src/*.deb /artifacts
-      - /artifacts && ls *.deb | grep -v "dbgsym" | xargs -l aptly repo add ros-foxy-image-processing-utils
+      - cd /artifacts && ls *.deb | grep -v "dbgsym" | xargs -l aptly repo add ros-foxy-image-processing-utils
       - aptly repo show -with-packages ros-foxy-image-processing-utils
   post_build:
     commands:
