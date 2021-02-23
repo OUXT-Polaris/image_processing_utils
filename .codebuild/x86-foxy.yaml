@@ -12,8 +12,8 @@ phases:
       - cd ~/colcon_ws && rosdep install -r -y --from-paths . --ignore-src
       - . /opt/ros/foxy/setup.sh && cd ~/colcon_ws/src/image_processing_utils && bloom-generate rosdebian --os-name ubuntu --os-version focal --ros-distro foxy
       - . /opt/ros/foxy/setup.sh && cd ~/colcon_ws/src/image_processing_utils && fakeroot debian/rules binary
-      - aptly repo create -distribution=focal -component=main ros-foxy-image-processing-utils
-      - ~/colcon_ws/src && ls *.deb | grep -v "dbgsym" | xargs -l aptly repo add ros-foxy-image-processing-utils
+      - aptly repo create -distribution=focal -component=main -config=~/.aptly.conf ros-foxy-image-processing-utils
+      - ~/colcon_ws/src && ls *.deb | grep -v "dbgsym" | xargs -l aptly repo add -config=~/.aptly.conf ros-foxy-image-processing-utils
       - aptly repo show -with-packages ros-foxy-image-processing-utils
   post_build:
     commands:
