@@ -22,7 +22,7 @@ phases:
       - version=$(cat version.txt)
       - full_package_name=$package-$version
       - aptly snapshot create $full_package_name from repo $package
-      - aptly publish snapshot $full_package_name s3:ouxt-apt-repo\:
+      - aptly publish snapshot $full_package_name s3:ouxt-apt-repo":"
   post_build:
     commands:
       - echo Build completed on `date`
