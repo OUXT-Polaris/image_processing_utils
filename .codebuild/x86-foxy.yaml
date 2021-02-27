@@ -6,7 +6,7 @@ phases:
       - echo Nothing to do in the pre_build phase...
   build:
     commands:
-      - package=$package
+      - package=ros-foxy-image_processing_utils
       - cd ../ && cp -r image_processing_utils ~/colcon_ws/src
       - rosdep update
       - cd ~/colcon_ws && vcs import src < src/image_processing_utils/dependency.repos
