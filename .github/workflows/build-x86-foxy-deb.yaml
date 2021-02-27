@@ -1,9 +1,11 @@
-name: Build X86 Foxy Deb
+name: Build X86 Foxy Deb Package
 
 on:
   schedule:
     - cron: 0 0 * * *
   push:
+    branches:
+      - master
   workflow_dispatch:
 jobs:
     job1:
