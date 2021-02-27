@@ -6,23 +6,22 @@ phases:
       - echo Nothing to do in the pre_build phase...
   build:
     commands:
-      - package=ros-foxy-image_processing_utils
+      - mkdir /artifacts
+      - echo ros-foxy-image_processing_utils > /artifacts/package.txt
       - cd ../ && cp -r image_processing_utils ~/colcon_ws/src
       - rosdep update
       - cd ~/colcon_ws && vcs import src < src/image_processing_utils/dependency.repos
       - cd ~/colcon_ws && rosdep install -r -y --from-paths . --ignore-src
       - . /opt/ros/foxy/setup.sh && cd ~/colcon_ws/src/image_processing_utils && bloom-generate rosdebian --os-name ubuntu --os-version focal --ros-distro foxy
       - . /opt/ros/foxy/setup.sh && cd ~/colcon_ws/src/image_processing_utils && fakeroot debian/rules binary
-      - aptly repo create -distribution=focal -component=main $package
-      - mkdir /artifacts
+      - aptly repo create -distribution=focal -component=main $(cat /artifacts/package.txt)
       - mv ~/colcon_ws/src/*.deb /artifacts
-      - cd /artifacts && ls *.deb | grep -v "dbgsym" | xargs -l aptly repo add $package
-      - aptly repo show -with-packages $package
-      - dpkg -I *.deb | grep Version | awk '{ split($0, a); print a[2]}' > version.txt
-      - version=$(cat version.txt)
-      - full_package_name=$package-$version
-      - aptly snapshot create $full_package_name from repo $package
-      - aptly publish snapshot $full_package_name s3:ouxt-apt-repo":"
+      - cd /artifacts && ls *.deb | grep -v "dbgsym" | xargs -l aptly repo add $(cat /artifacts/package.txt)
+      - aptly repo show -with-packages $(cat /artifacts/package.txt)
+      - cd /artifacts && dpkg -I *.deb | grep Version | awk '{ split($0, a); print a[2]}' > /artifacts/version.txt
+      - echo $(cat /artifacts/package.txt)-$(cat /artifacts/version.txt) > /artifacts/full_package_name.txt
+      - aptly snapshot create $(cat /artifacts/full_package_name.txt) from repo $(cat /artifacts/package.txt)
+      - aptly publish snapshot $(cat /artifacts/full_package_name.txt) s3:ouxt-apt-repo":"
   post_build:
     commands:
       - echo Build completed on `date`
