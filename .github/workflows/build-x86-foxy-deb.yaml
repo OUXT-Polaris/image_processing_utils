@@ -1,4 +1,4 @@
-name: ROS2-Dashing
+name: Build X86 Foxy Deb
 
 on:
   schedule:
