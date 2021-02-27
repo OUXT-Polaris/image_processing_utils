@@ -21,7 +21,7 @@ phases:
       - cd /artifacts && dpkg -I *.deb | grep Version | awk '{ split($0, a); print a[2]}' > /artifacts/version.txt
       - echo $(cat /artifacts/package.txt)-$(cat /artifacts/version.txt) > /artifacts/full_package_name.txt
       - aptly snapshot create $(cat /artifacts/full_package_name.txt) from repo $(cat /artifacts/package.txt)
-      - aptly publish snapshot $(cat /artifacts/full_package_name.txt) s3:ouxt-apt-repo":"
+      - aptly publish snapshot $(cat /artifacts/full_package_name.txt) s3:ouxt-apt-repo:apt
   post_build:
     commands:
       - echo Build completed on `date`
