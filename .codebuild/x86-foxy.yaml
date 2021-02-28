@@ -15,9 +15,10 @@ phases:
       - aptly repo create -distribution=focal -component=main ros-foxy-image-processing-utils
       - mkdir /artifacts
       - mv ~/colcon_ws/src/*.deb /artifacts
+      - mv /artifacts/*.deb /artifacts/ros-foxy-image-processing-utils.deb
   post_build:
     commands:
       - echo Build completed on `date`
 artifacts:
   files:
-    - /artifacts/*.deb
+    - /artifacts/ros-foxy-image-processing-utils.deb
