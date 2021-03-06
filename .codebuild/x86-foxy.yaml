@@ -8,6 +8,7 @@ phases:
     commands:
       - cd ../ && cp -r image_processing_utils ~/colcon_ws/src
       - rosdep update
+      - apt-get update
       - cd ~/colcon_ws && vcs import src < src/image_processing_utils/dependency.repos
       - cd ~/colcon_ws && rosdep install -r -y --from-paths . --ignore-src
       - . /opt/ros/foxy/setup.sh && cd ~/colcon_ws/src/image_processing_utils && bloom-generate rosdebian --os-name ubuntu --os-version focal --ros-distro foxy
