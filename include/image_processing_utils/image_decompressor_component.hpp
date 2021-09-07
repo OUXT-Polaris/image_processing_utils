@@ -60,8 +60,8 @@ extern "C" {
 #endif
 
 #include <rclcpp/rclcpp.hpp>
-#include <sensor_msgs/msg/image.hpp>
 #include <sensor_msgs/msg/compressed_image.hpp>
+#include <sensor_msgs/msg/image.hpp>
 
 namespace image_processing_utils
 {

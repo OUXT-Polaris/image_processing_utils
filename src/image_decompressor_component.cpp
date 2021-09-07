@@ -12,14 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <image_processing_utils/image_decompressor_component.hpp>
-
-#include <rclcpp_components/register_node_macro.hpp>
 #include <cv_bridge/cv_bridge.h>
-#include <sensor_msgs/image_encodings.hpp>
+
+#include <image_processing_utils/image_decompressor_component.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-
+#include <rclcpp_components/register_node_macro.hpp>
+#include <sensor_msgs/image_encodings.hpp>
 #include <string>
 
 namespace image_processing_utils
@@ -65,8 +64,7 @@ void ImageDecompressorComponent::ImageCallback(
           break;
         default:
           RCLCPP_ERROR(
-            get_logger(), "Unsupported number of channels: %i",
-            cv_ptr->image.channels());
+            get_logger(), "Unsupported number of channels: %i", cv_ptr->image.channels());
           break;
       }
     } else {

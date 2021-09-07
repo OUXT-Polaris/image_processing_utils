@@ -40,14 +40,11 @@ extern "C" {
   IMAGE_PROCESSING_UTILS_IMAGE_RECTIFY_COMPONENT_PUBLIC
 #define IMAGE_PROCESSING_UTILS_IMAGE_RECTIFY_COMPONENT_LOCAL
 #else
-#define IMAGE_PROCESSING_UTILS_IMAGE_RECTIFY_COMPONENT_EXPORT \
-  __attribute__((visibility("default")))
+#define IMAGE_PROCESSING_UTILS_IMAGE_RECTIFY_COMPONENT_EXPORT __attribute__((visibility("default")))
 #define IMAGE_PROCESSING_UTILS_IMAGE_RECTIFY_COMPONENT_IMPORT
 #if __GNUC__ >= 4
-#define IMAGE_PROCESSING_UTILS_IMAGE_RECTIFY_COMPONENT_PUBLIC \
-  __attribute__((visibility("default")))
-#define IMAGE_PROCESSING_UTILS_IMAGE_RECTIFY_COMPONENT_LOCAL \
-  __attribute__((visibility("hidden")))
+#define IMAGE_PROCESSING_UTILS_IMAGE_RECTIFY_COMPONENT_PUBLIC __attribute__((visibility("default")))
+#define IMAGE_PROCESSING_UTILS_IMAGE_RECTIFY_COMPONENT_LOCAL __attribute__((visibility("hidden")))
 #else
 #define IMAGE_PROCESSING_UTILS_IMAGE_RECTIFY_COMPONENT_PUBLIC
 #define IMAGE_PROCESSING_UTILS_IMAGE_RECTIFY_COMPONENT_LOCAL
@@ -60,8 +57,8 @@ extern "C" {
 #endif
 
 #include <rclcpp/rclcpp.hpp>
-#include <sensor_msgs/msg/image.hpp>
 #include <sensor_msgs/msg/camera_info.hpp>
+#include <sensor_msgs/msg/image.hpp>
 
 #if FOXY
 #include <image_transport/image_transport.hpp>
@@ -75,7 +72,6 @@ extern "C" {
 
 namespace image_processing_utils
 {
-
 class ImageRectifyComponent : public rclcpp::Node
 {
 public:

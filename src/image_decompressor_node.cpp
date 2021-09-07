@@ -13,8 +13,8 @@
 // limitations under the License.
 
 #include <image_processing_utils/image_decompressor_component.hpp>
-#include <rclcpp/rclcpp.hpp>
 #include <memory>
+#include <rclcpp/rclcpp.hpp>
 
 int main(int argc, char * argv[])
 {

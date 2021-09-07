@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <image_processing_utils/image_rectify_component.hpp>
 #include <cv_bridge/cv_bridge.h>
-#include <rclcpp_components/register_node_macro.hpp>
 
+#include <image_processing_utils/image_rectify_component.hpp>
 #include <memory>
+#include <rclcpp_components/register_node_macro.hpp>
 
 namespace image_processing_utils
 {
@@ -27,9 +27,9 @@ ImageRectifyComponent::ImageRectifyComponent(const rclcpp::NodeOptions & options
   get_parameter("interpolation", interpolation_);
   pub_rect_ = image_transport::create_publisher(this, "image_rect");
   sub_camera_ = image_transport::create_camera_subscription(
-    this, "image", std::bind(
-      &ImageRectifyComponent::callback,
-      this, std::placeholders::_1, std::placeholders::_2), "raw");
+    this, "image",
+    std::bind(&ImageRectifyComponent::callback, this, std::placeholders::_1, std::placeholders::_2),
+    "raw");
 }
 
 void ImageRectifyComponent::callback(
