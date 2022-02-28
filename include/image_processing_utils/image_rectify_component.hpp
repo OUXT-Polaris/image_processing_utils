@@ -60,11 +60,7 @@ extern "C" {
 #include <sensor_msgs/msg/camera_info.hpp>
 #include <sensor_msgs/msg/image.hpp>
 
-#if FOXY
 #include <image_transport/image_transport.hpp>
-#else
-#include <image_transport/image_transport.h>
-#endif
 
 #include <image_geometry/pinhole_camera_model.h>
 
